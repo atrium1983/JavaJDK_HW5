@@ -9,6 +9,8 @@ public class Philosopher extends Thread{
     private int countMeal;
     private CountDownLatch latch;
     private Table table;
+    private int eatingTime;
+    private int thinkingTime;
 
     public Philosopher(String philosopher, int leftFork, int rightFork, CountDownLatch latch, Table table) {
         this.philosopher = philosopher;
@@ -17,6 +19,8 @@ public class Philosopher extends Thread{
         this.latch = latch;
         this.table = table;
         countMeal = 0;
+        eatingTime = 3000;
+        thinkingTime = 6000;
     }
 
     public String getPhilosopher() {
@@ -48,7 +52,7 @@ public class Philosopher extends Thread{
     public void eat() throws InterruptedException {
         if (table.tryToTakeForks(getLeftFork(), getRightFork())) {
             System.out.println(getPhilosopher() + " начал есть");
-            sleep(3000);
+            sleep(eatingTime);
             table.returnForks(getLeftFork(), getRightFork());
             System.out.println(getPhilosopher() + " закончил есть");
             countMeal++;
@@ -56,6 +60,6 @@ public class Philosopher extends Thread{
     }
 
     public void think() throws InterruptedException {
-        sleep(6000);
+        sleep(thinkingTime);
     }
 }
